@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_CLAS" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <VSEOCLASS>
+    <CLSNAME>ZCL_USER_STATIC</CLSNAME>
+    <VERSION>1</VERSION>
+    <LANGU>R</LANGU>
+    <DESCRIPT>Ìåòîäû äëÿ ðàáîòû ñ ïîëüçîâàòåëÿìè</DESCRIPT>
+    <EXPOSURE>2</EXPOSURE>
+    <STATE>1</STATE>
+    <CLSFINAL>X</CLSFINAL>
+    <CLSCCINCL>X</CLSCCINCL>
+    <FIXPT>X</FIXPT>
+    <UNICODE>X</UNICODE>
+    <MSG_ID>ZSRM_USER</MSG_ID>
+   </VSEOCLASS>
+   <DESCRIPTIONS>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_USER_STATIC</CLSNAME>
+     <CMPNAME>GET_EMAIL</CMPNAME>
+     <LANGU>R</LANGU>
+     <DESCRIPT>Ïîëó÷åíèå ýëåêòðîííîé ïî÷òû ïîëüçîâàòåëÿ</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_USER_STATIC</CLSNAME>
+     <CMPNAME>GET_EMPLOYEE</CMPNAME>
+     <LANGU>R</LANGU>
+     <DESCRIPT>Ïîëó÷èòü ñîòðóäíèêà</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_USER_STATIC</CLSNAME>
+     <CMPNAME>GET_FUNCTION</CMPNAME>
+     <LANGU>R</LANGU>
+     <DESCRIPT>Ïîëó÷èòü äîëæíîñòü èç SU01</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_USER_STATIC</CLSNAME>
+     <CMPNAME>GET_GROUP</CMPNAME>
+     <LANGU>R</LANGU>
+     <DESCRIPT>Ïîëó÷èòü ãðóïïó çàêóïîê ïîëüçîâàòåëÿ</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_USER_STATIC</CLSNAME>
+     <CMPNAME>GET_NAME</CMPNAME>
+     <LANGU>R</LANGU>
+     <DESCRIPT>Ïîëó÷èòü èìÿ ïîëüçîâàòåëÿ</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_USER_STATIC</CLSNAME>
+     <CMPNAME>GET_ORG</CMPNAME>
+     <LANGU>R</LANGU>
+     <DESCRIPT>Ïîëó÷èòü çàêóïî÷íóþ îðãïíçèöèþ ïîëüçîâàòåëÿ</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_USER_STATIC</CLSNAME>
+     <CMPNAME>GET_WORKPLACES</CMPNAME>
+     <LANGU>R</LANGU>
+     <DESCRIPT>Ïîëó÷èòü ðàáî÷èå ìåñòà</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_USER_STATIC</CLSNAME>
+     <CMPNAME>IS_BIDDER</CMPNAME>
+     <LANGU>R</LANGU>
+     <DESCRIPT>Is bidder?</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_USER_STATIC</CLSNAME>
+     <CMPNAME>IS_DEVELOPER</CMPNAME>
+     <LANGU>R</LANGU>
+     <DESCRIPT>Is developer?</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_USER_STATIC</CLSNAME>
+     <CMPNAME>IS_EXIST</CMPNAME>
+     <LANGU>R</LANGU>
+     <DESCRIPT>Ïðîâåðêà íà ñóùåñòâîâàíèå</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_USER_STATIC</CLSNAME>
+     <CMPNAME>IS_PURCHASER</CMPNAME>
+     <LANGU>R</LANGU>
+     <DESCRIPT>Is purchaser?</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>ZCL_USER_STATIC</CLSNAME>
+     <CMPNAME>WFBATCH</CMPNAME>
+     <LANGU>R</LANGU>
+     <DESCRIPT>Èìÿ ïîëüçîâàòåëÿ</DESCRIPT>
+    </SEOCOMPOTX>
+   </DESCRIPTIONS>
+  </asx:values>
+ </asx:abap>
+</abapGit>
