@@ -33,8 +33,9 @@ public section.
   class-methods GET_ROLES
     importing
       !I_USER type UNAME default SY-UNAME
+      !I_DATE type SY-DATLO optional
     returning
-      value(ET_ROLES) type ZIRANGE .
+      value(ET_ROLES) type RSSBR_T_BADI_BAPIAGR .
   class-methods GET_FUNCTION
     importing
       !I_USER type UNAME default SY-UNAME
@@ -99,6 +100,11 @@ public section.
     preferred parameter I_USER
     returning
       value(E_BIDDER) type ABAP_BOOL .
+  class-methods GET_USER_BY_EMAIL
+    importing
+      !I_EMAIL type SIMPLE
+    returning
+      value(E_USER) type UNAME .
   protected section.
 *"* protected components of class ZCL_USER_STATIC
 *"* do not include other source files here!!!
@@ -120,9 +126,11 @@ CLASS ZCL_USER_STATIC IMPLEMENTATION.
 
     try.
         zcl_cache_static=>get_data(
-          exporting i_name = 'ZCLSRM_USER_STATIC=>GET_EMAIL'
-                    i_id   = i_user
-          importing e_data = e_mail ).
+          exporting
+            i_name = 'ZCLSRM_USER_STATIC=>GET_EMAIL'
+            i_id   = i_user
+          importing
+            e_data = e_mail ).
         return.
       catch cx_root.
     endtry.
@@ -140,8 +148,11 @@ CLASS ZCL_USER_STATIC IMPLEMENTATION.
       tables
         return   = lt_return.
 
-    loop at lt_return transporting no fields where type ca 'EAX'.
-      zcx_generic=>raise( it_return = lt_return ).
+    loop at lt_return transporting no fields
+      where
+        type ca 'EAX'.
+      zcx_generic=>raise(
+        it_return = lt_return ).
     endloop.
 
     e_mail = ls_address-e_mail.
@@ -238,9 +249,11 @@ CLASS ZCL_USER_STATIC IMPLEMENTATION.
 
     try.
         zcl_cache_static=>get_data(
-          exporting i_name = 'ZCLSRM_USER_STATIC=>GET_NAME'
-                    i_id   = i_user
-          importing e_data = e_name ).
+          exporting
+            i_name = 'ZCLSRM_USER_STATIC=>GET_NAME'
+            i_id   = i_user
+          importing
+            e_data = e_name ).
         return.
       catch cx_root.
     endtry.
@@ -259,7 +272,9 @@ CLASS ZCL_USER_STATIC IMPLEMENTATION.
         return   = lt_return.
 
     data ls_return like line of lt_return.
-    loop at lt_return into ls_return where type ca 'EAX'.
+    loop at lt_return transporting no fields
+      where
+        type ca 'EAX'.
       zcx_generic=>raise(
         it_return = lt_return ).
     endloop.
@@ -295,37 +310,39 @@ CLASS ZCL_USER_STATIC IMPLEMENTATION.
   endmethod.
 
 
-method get_partner.
+  method get_partner.
 
-  data lt_user type table of usselmodbe.
-  zcl_abap_static=>table2table(
-    exporting it_data = zcl_abap_static=>value2range( i_id )
-    importing et_data = lt_user ).
+    data lt_user type table of usselmodbe.
+    zcl_abap_static=>table2table(
+      exporting it_data = zcl_abap_static=>value2range( i_id )
+      importing et_data = lt_user ).
 
-  data lt_partners type bu_partner_t.
-  call function 'BP_BUPA_SEARCH_BY_USER'
-    exporting
-      maxrows    = 1
-    importing
-      et_partner = lt_partners
-    tables
-      ir_user    = lt_user.
+    data lt_partners type bu_partner_t.
+    call function 'BP_BUPA_SEARCH_BY_USER'
+      exporting
+        maxrows    = 1
+      importing
+        et_partner = lt_partners
+      tables
+        ir_user    = lt_user.
 
-  data ls_partner like line of lt_partners.
-  read table lt_partners into ls_partner index 1.
+    data ls_partner like line of lt_partners.
+    read table lt_partners into ls_partner index 1.
 
-  e_id  = ls_partner-partner.
+    e_id = ls_partner-partner.
 
-endmethod.
+  endmethod.
 
 
   method get_roles.
 
     try.
         zcl_cache_static=>get_data(
-          exporting i_name = 'ZCLSRM_USER_STATIC=>GET_ROLES'
-                    i_id   = i_user
-          importing e_data = et_roles ).
+          exporting
+            i_name = 'ZCLSRM_USER_STATIC=>GET_ROLES'
+            i_id   = i_user
+          importing
+            e_data = et_roles ).
         return.
       catch cx_root.
     endtry.
@@ -336,25 +353,13 @@ endmethod.
       exporting
         username       = i_user
       tables
-        activitygroups = lt_roles
+        activitygroups = et_roles
         return         = lt_return.
 
-    data ls_role like line of lt_roles.
-    loop at lt_roles into ls_role.
-      data ls_range like line of et_roles.
-      ls_range-sign = 'I'.
-      ls_range-option = 'EQ'.
-      ls_range-low = ls_role-agr_name.
-      append ls_range to et_roles.
-    endloop.
-
-    if et_roles is initial.
-      clear ls_range.
-      ls_range-sign = 'I'.
-      ls_range-option = 'EQ'.
-      ls_range-low = zcl_abap_static=>create_guid( ).
-      append ls_range to et_roles.
-    endif.
+    delete et_roles
+      where
+        not ( from_dat le i_date and
+              to_dat   gt i_date ).
 
     zcl_cache_static=>set_data(
       i_name = 'ZCLSRM_USER_STATIC=>GET_ROLES'
@@ -380,6 +385,33 @@ endmethod.
         return   = lt_return.
 
     e_zone = ls_address-time_zone.
+
+  endmethod.
+
+
+  method get_user_by_email.
+
+    check i_email is not initial.
+
+    data lt_selection_range type table of bapiussrge.
+    field-symbols <ls_selection_range> like line of lt_selection_range.
+    append initial line to lt_selection_range assigning <ls_selection_range>.
+    <ls_selection_range>-parameter = 'ADDRESS'.
+    <ls_selection_range>-field     = 'E_MAIL'.
+    <ls_selection_range>-sign      = 'I'.
+    <ls_selection_range>-option    = 'EQ'.
+    <ls_selection_range>-low       = i_email.
+
+    data lt_list type table of bapiusname.
+    call function 'BAPI_USER_GETLIST'
+      tables
+        selection_range = lt_selection_range
+        userlist        = lt_list.
+
+    data ls_list like line of lt_list.
+    read table lt_list into ls_list index 1.
+
+    e_user = ls_list-username.
 
   endmethod.
 
